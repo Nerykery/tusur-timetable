@@ -19,6 +19,9 @@ import ru.tusur.timetable.domain.model.RoomBusy
 import ru.tusur.timetable.domain.model.ScheduleDay
 import ru.tusur.timetable.domain.model.SearchItem
 import ru.tusur.timetable.domain.model.SourceRef
+import ru.tusur.timetable.domain.model.TimetableError
+import ru.tusur.timetable.domain.model.TimetableErrorKind
+import ru.tusur.timetable.domain.model.TimetableException
 import ru.tusur.timetable.domain.model.Week
 import ru.tusur.timetable.domain.model.parityLabelFrom
 import java.time.Instant
@@ -31,8 +34,10 @@ class ProxyResponseMapper @Inject constructor() {
 
     fun mapWeek(dto: WeekDto, requested: SourceRef, fetchedAt: Instant): Week {
         val monday = TomskTime.parseDate(dto.monday)
-            ?: error("Некорректная дата недели: ${dto.monday}")
-        val days = dto.days
+            ?: throw TimetableException(
+                TimetableError(TimetableErrorKind.MAPPING),
+            )
+        val parsedDays = dto.days
             .mapNotNull { day ->
                 val date = TomskTime.parseDate(day.date) ?: return@mapNotNull null
                 ScheduleDay(
@@ -42,7 +47,13 @@ class ProxyResponseMapper @Inject constructor() {
                         .sortedBy { it.startMinutes },
                 )
             }
-            .sortedBy { it.date }
+            .associateBy { it.date }
+        // Сервер может не прислать выходные или вернуть меньше семи дней: неделя должна
+        // оставаться целой, иначе в переключателе дней пропадут суббота и воскресенье.
+        val days = (0..6).map { offset ->
+            val date = monday.plusDays(offset.toLong())
+            parsedDays[date] ?: ScheduleDay(date, emptyList())
+        }
 
         return Week(
             sourceKey = requested.key,
@@ -65,6 +76,11 @@ class ProxyResponseMapper @Inject constructor() {
             val start = TomskTime.parseTimeToMinutes(pair.getOrNull(0)) ?: 0
             val end = TomskTime.parseTimeToMinutes(pair.getOrNull(1)) ?: start
             LoadedPair(index = index, startMinutes = start, endMinutes = end)
+        }
+        // Без сетки пар индексация ячеек (день × пара) схлопывается и занятость
+        // приписывается чужому дню. Лучше честно сказать «нет данных».
+        if (pairs.isEmpty()) {
+            throw TimetableException(TimetableError(TimetableErrorKind.MAPPING))
         }
         val rooms = dto.rooms.mapValues { (_, room) ->
             RoomBusy(

@@ -77,13 +77,15 @@ class PickerViewModel @Inject constructor(
 
     fun onQueryChange(value: String) {
         // Немедленно: иначе TextField откатит ввод к старому значению.
+        val meaningful = value.trim().length >= MIN_QUERY_LENGTH
         _state.update {
             it.copy(
                 query = value,
-                loading = value.trim().length >= MIN_QUERY_LENGTH,
-                showMinLengthHint = value.isNotEmpty() && value.trim().length < MIN_QUERY_LENGTH,
+                loading = meaningful,
+                // Пробелы — не «слишком короткий запрос», а пустое поле.
+                showMinLengthHint = value.isNotBlank() && !meaningful,
                 error = null,
-                results = if (value.trim().length < MIN_QUERY_LENGTH) emptyList() else it.results,
+                results = if (meaningful) it.results else emptyList(),
             )
         }
     }
@@ -101,7 +103,7 @@ class PickerViewModel @Inject constructor(
                     loading = false,
                     results = emptyList(),
                     error = null,
-                    showMinLengthHint = it.query.isNotEmpty(),
+                    showMinLengthHint = it.query.isNotBlank() && it.query.trim().length < MIN_QUERY_LENGTH,
                 )
             }
             return

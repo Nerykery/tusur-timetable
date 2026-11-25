@@ -38,10 +38,21 @@ object DeepLinks {
         return when (uri.host?.lowercase()) {
             "day" -> AppLink.Day(segments.firstOrNull { datePattern.matches(it) })
 
-            "group" -> segments.takeIf { it.isNotEmpty() }
-                ?.let { AppLink.Source(KEY_GROUP + it.joinToString("/"), queryParam(uri, "date")?.validDate()) }
+            "group" -> {
+                // Дату в пути отделяем от группы: /group/fit/023/2026-11-24.
+                val dateSegment = segments.lastOrNull { datePattern.matches(it) }
+                val groupSegments = segments.filter { !datePattern.matches(it) }
+                if (groupSegments.isEmpty()) {
+                    null
+                } else {
+                    AppLink.Source(
+                        KEY_GROUP + groupSegments.joinToString("/"),
+                        dateSegment ?: queryParam(uri, "date")?.validDate(),
+                    )
+                }
+            }
 
-            "teacher" -> segments.firstOrNull()
+            "teacher" -> segments.firstOrNull { !datePattern.matches(it) }
                 ?.let { AppLink.Source(KEY_TEACHER + it, queryParam(uri, "date")?.validDate()) }
 
             "map" -> AppLink.Map(

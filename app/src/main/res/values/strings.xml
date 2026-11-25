@@ -124,6 +124,7 @@
     <string name="reminder_digest_today">Расписание на сегодня</string>
     <string name="reminder_digest_tomorrow">Расписание на завтра</string>
     <string name="reminder_no_lessons">Пар нет</string>
+    <string name="reminder_digest_no_data">Расписание ещё не загружено. Откройте приложение, чтобы обновить данные.</string>
     <string name="reminder_pair_format">%1$d-я пара</string>
 
     <!-- Схема корпуса -->

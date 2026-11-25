@@ -195,7 +195,38 @@ class ScheduleViewModelTest {
     }
 
     @Test
-    fun `day deep link selects requested date`() = runTest {
+    fun `day deep link outside window warns instead of stranding`() = runTest {
+        val bus = DeepLinkBus()
+        val model = build(FakeRepository(), mockPrefs(SourceSelection("group:fit/023", "гр. 023")), bus)
+        settle()
+
+        bus.post(AppLink.Day("2019-03-04"))
+        settle()
+
+        assertTrue("Должно показаться предупреждение о диапазоне", model.state.value.rangeWarning)
+        assertEquals("День не должен уезжать в 2019 год", today, model.state.value.selectedDate)
+    }
+
+    @Test
+    fun `next week at the window edge warns`() = runTest {
+        val model = build(FakeRepository(), mockPrefs(SourceSelection("group:fit/023", "гр. 023")))
+        settle()
+
+        // Прокручиваем 30 недель вперёд: на границе окна дальше нельзя.
+        repeat(30) {
+            model.onNextWeek()
+            settle()
+        }
+        val mondayAtEdge = model.state.value.monday
+        model.onNextWeek()
+        settle()
+
+        assertTrue(model.state.value.rangeWarning)
+        assertEquals(mondayAtEdge, model.state.value.monday)
+    }
+
+    @Test
+    fun `day deep link inside window selects requested date`() = runTest {
         val bus = DeepLinkBus()
         val model = build(FakeRepository(), mockPrefs(SourceSelection("group:fit/023", "гр. 023")), bus)
         settle()

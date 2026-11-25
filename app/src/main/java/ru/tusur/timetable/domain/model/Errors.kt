@@ -22,14 +22,17 @@ data class TimetableError(
 ) {
     /** Можно ли повторить запрос: обновить / подождать. */
     val isRetryable: Boolean
-        get() = kind in setOf(
+        get() = when (kind) {
             TimetableErrorKind.NETWORK,
             TimetableErrorKind.TIMEOUT,
             TimetableErrorKind.UNAVAILABLE,
             TimetableErrorKind.RATE_LIMITED,
-            TimetableErrorKind.UNKNOWN,
-            TimetableErrorKind.NOT_FOUND,
-        )
+            -> true
+
+            // Ошибка разбора не пройдёт сама по себе, а «неизвестное» без повтора
+            // лучше, чем бесконечные ретраи каждые полчаса.
+            else -> false
+        }
 
     /** Нужно выбрать расписание заново (источника больше нет). */
     val isSourceGone: Boolean

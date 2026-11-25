@@ -13,6 +13,7 @@ import ru.tusur.timetable.domain.model.BuildingLoad
 import ru.tusur.timetable.domain.model.BuildingMap
 import ru.tusur.timetable.domain.model.MapRoom
 import ru.tusur.timetable.domain.model.TimetableError
+import ru.tusur.timetable.domain.model.TimetableErrorKind
 import ru.tusur.timetable.domain.model.TimetableException
 import ru.tusur.timetable.domain.repository.BuildingRepository
 import java.time.Clock
@@ -23,6 +24,7 @@ data class BuildingMapUiState(
     val load: BuildingLoad? = null,
     val loading: Boolean = true,
     val loadError: TimetableError? = null,
+    val mapError: TimetableError? = null,
     val floor: Int = 1,
     val selectedRoomId: String? = null,
     val query: String = "",
@@ -101,7 +103,12 @@ class BuildingMapViewModel @Inject constructor(
     fun applyCurrentSlot(load: BuildingLoad) {
         val today = TomskTime.today(clock)
         val sameWeek = TomskTime.mondayOf(today) == load.monday
-        val day = if (sameWeek) TomskTime.dayIndex(today).coerceIn(0, MAX_DAY_INDEX) else 0
+        val day = TomskTime.dayIndex(today)
+        // В воскресенье занятий нет: показывать занятость субботы как «сейчас» нельзя.
+        if (!sameWeek || day > MAX_SCHEDULE_DAY) {
+            _state.update { it.copy(dayIndex = 0, pairIndex = 0, autoSlot = true) }
+            return
+        }
         val slot = load.currentOrNextSlot(TomskTime.nowMinutes(clock))
         val pair = slot?.pairIndex ?: 0
         _state.update {
@@ -110,14 +117,26 @@ class BuildingMapViewModel @Inject constructor(
     }
 
     private suspend fun loadMap() {
-        val map = repository.map()
-        _state.update {
-            it.copy(
-                map = map,
-                floor = map.floors.firstOrNull { floor -> floor == 1 } ?: map.floors.firstOrNull() ?: 1,
-                loading = false,
-            )
-        }
+        runCatching { repository.map() }.fold(
+            onSuccess = { map ->
+                _state.update {
+                    it.copy(
+                        map = map,
+                        floor = map.floors.firstOrNull { floor -> floor == 1 }
+                            ?: map.floors.firstOrNull()
+                            ?: 1,
+                        loading = false,
+                    )
+                }
+            },
+            onFailure = { throwable ->
+                val error = (throwable as? TimetableException)?.error
+                    ?: TimetableError(TimetableErrorKind.MAPPING)
+                _state.update {
+                    it.copy(map = null, loading = false, mapError = error)
+                }
+            },
+        )
     }
 
     private suspend fun loadOccupancy() {
@@ -129,13 +148,14 @@ class BuildingMapViewModel @Inject constructor(
             },
             onFailure = { throwable ->
                 val error = (throwable as? TimetableException)?.error
-                    ?: TimetableError(ru.tusur.timetable.domain.model.TimetableErrorKind.NETWORK)
+                    ?: TimetableError(TimetableErrorKind.NETWORK)
                 _state.update { it.copy(loadError = error) }
             },
         )
     }
 
     private companion object {
-        const val MAX_DAY_INDEX = 5
+        /** Суббота — последний день с занятиями; воскресенье (6) вне расписания. */
+        const val MAX_SCHEDULE_DAY = 5
     }
 }

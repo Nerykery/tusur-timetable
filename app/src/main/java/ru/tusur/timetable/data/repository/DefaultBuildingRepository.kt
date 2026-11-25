@@ -11,7 +11,9 @@ import ru.tusur.timetable.data.network.ApiErrorMapper
 import ru.tusur.timetable.data.network.NetworkRetry
 import ru.tusur.timetable.data.network.ProxyRemoteSource
 import ru.tusur.timetable.domain.model.BuildingLoad
+import ru.tusur.timetable.domain.model.TimetableErrorKind
 import ru.tusur.timetable.domain.model.BuildingMap
+import ru.tusur.timetable.domain.model.TimetableError
 import ru.tusur.timetable.domain.model.TimetableException
 import ru.tusur.timetable.domain.repository.BuildingRepository
 import java.time.Clock
@@ -54,17 +56,14 @@ class DefaultBuildingRepository @Inject constructor(
             }
     }
 
-    private fun readMap(): BuildingMap = runCatching {
+    private fun readMap(): BuildingMap = try {
         val raw = context.assets.open(ASSET).bufferedReader().use { it.readText() }
         parser.parse(raw)
-    }.getOrElse {
-        BuildingMap(
-            title = "ФЭТ",
-            address = "ул. Вершинина, 74",
-            building = "ф",
-            floors = (0..4).toList(),
-            hallFloors = setOf(1),
-            roomsByFloor = emptyMap(),
+    } catch (throwable: Throwable) {
+        // Пустая карта выглядит как «в корпусе нет аудиторий» — честнее сказать об ошибке.
+        throw TimetableException(
+            TimetableError(TimetableErrorKind.MAPPING),
+            throwable,
         )
     }
 

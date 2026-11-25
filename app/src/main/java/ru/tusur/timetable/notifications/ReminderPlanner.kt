@@ -35,6 +35,8 @@ object ReminderPlanner {
             val date: LocalDate,
             val lessons: List<DigestLesson>,
             val forTomorrow: Boolean,
+            /** Данных на этот день нет в кэше — нельзя утверждать, что пар нет. */
+            val dataMissing: Boolean = false,
         ) : Content
     }
 
@@ -61,6 +63,7 @@ object ReminderPlanner {
         val lessonsByDate: Map<LocalDate, List<Lesson>> = weeks
             .flatMap { it.days }
             .associate { day -> day.date to day.lessons }
+        val knownDates: Set<LocalDate> = weeks.flatMap { week -> week.days.map { it.date } }.toSet()
 
         val result = LinkedHashMap<Int, PlannedReminder>()
 
@@ -72,29 +75,40 @@ object ReminderPlanner {
         if (settings.beforeClassEnabled) {
             for (offset in 0L..1L) {
                 val date = today.plusDays(offset)
-                lessonsByDate[date].orEmpty().forEach { lesson ->
-                    val startMinutes = lesson.startMinutes - settings.beforeClassMinutes
-                    val trigger = TomskTime.instantAt(date, startMinutes).toEpochMilli()
-                    val eventKey = "before:$date:${lesson.startMinutes}:${lesson.pair ?: lesson.position}"
-                    add(
-                        PlannedReminder(
-                            notificationId = stableId(eventKey),
-                            requestCode = stableId(eventKey),
-                            triggerAtMillis = trigger,
-                            channel = NotificationChannels.REMINDERS,
-                            eventKey = eventKey,
-                            deepLink = "timetable://day/$date",
-                            content = Content.BeforeClass(
-                                date = date,
-                                pair = lesson.pair,
-                                startLabel = lesson.startLabel,
-                                title = lesson.title,
-                                place = lesson.place,
-                                minutesBefore = settings.beforeClassMinutes,
+                lessonsByDate[date].orEmpty()
+                    .sortedBy { it.startMinutes }
+                    .forEachIndexed { index, lesson ->
+                        val startMinutes = lesson.startMinutes - settings.beforeClassMinutes
+                        // Пара сразу после полуночи: напоминание уходит накануне вечером.
+                        val dayShift = if (startMinutes < 0) -1L else 0L
+                        val triggerDate = date.plusDays(dayShift)
+                        val triggerMinutes = if (startMinutes < 0) {
+                            TomskTime.MINUTES_IN_DAY + startMinutes
+                        } else {
+                            startMinutes
+                        }
+                        val trigger = TomskTime.instantAt(triggerDate, triggerMinutes).toEpochMilli()
+                        // index в ключе: две пары одной группы могут совпасть по времени и номеру.
+                        val eventKey = "before:$date:${lesson.startMinutes}:${lesson.pair ?: lesson.position}:$index"
+                        add(
+                            PlannedReminder(
+                                notificationId = stableId(eventKey),
+                                requestCode = stableId(eventKey),
+                                triggerAtMillis = trigger,
+                                channel = NotificationChannels.REMINDERS,
+                                eventKey = eventKey,
+                                deepLink = "timetable://day/$date",
+                                content = Content.BeforeClass(
+                                    date = date,
+                                    pair = lesson.pair,
+                                    startLabel = lesson.startLabel,
+                                    title = lesson.title,
+                                    place = lesson.place,
+                                    minutesBefore = settings.beforeClassMinutes,
+                                ),
                             ),
-                        ),
-                    )
-                }
+                        )
+                    }
             }
         }
 
@@ -113,6 +127,7 @@ object ReminderPlanner {
                         date = today,
                         lessons = digestLessons(lessonsByDate[today]),
                         forTomorrow = false,
+                        dataMissing = today !in knownDates,
                     ),
                 ),
             )
@@ -134,6 +149,7 @@ object ReminderPlanner {
                         date = tomorrow,
                         lessons = digestLessons(lessonsByDate[tomorrow]),
                         forTomorrow = true,
+                        dataMissing = tomorrow !in knownDates,
                     ),
                 ),
             )

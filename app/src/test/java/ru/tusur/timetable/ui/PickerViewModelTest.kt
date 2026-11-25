@@ -108,6 +108,22 @@ class PickerViewModelTest {
     }
 
     @Test
+    fun `spaces only are treated as empty field`() = runTest {
+        val repository = FakeRepository()
+        val viewModel = model(repository)
+
+        viewModel.onQueryChange("   ")
+        settle()
+
+        assertFalse(
+            "Пробелы не должны выглядеть как слишком короткий запрос",
+            viewModel.state.value.showMinLengthHint,
+        )
+        assertTrue(viewModel.state.value.results.isEmpty())
+        assertTrue(repository.queries.isEmpty())
+    }
+
+    @Test
     fun `clearing query drops results and hint`() = runTest {
         val viewModel = model(FakeRepository())
 

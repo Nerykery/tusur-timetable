@@ -39,10 +39,10 @@ class ReminderNotificationTexts @Inject constructor(
         }
 
         is ReminderPlanner.Content.Digest -> {
-            if (content.lessons.isEmpty()) {
-                context.getString(R.string.reminder_no_lessons)
-            } else {
-                content.lessons.joinToString("\n") { lesson ->
+            when {
+                content.dataMissing -> context.getString(R.string.reminder_digest_no_data)
+                content.lessons.isEmpty() -> context.getString(R.string.reminder_no_lessons)
+                else -> content.lessons.joinToString("\n") { lesson ->
                     buildString {
                         append(lesson.startLabel)
                         append("  ")

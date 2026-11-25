@@ -14,9 +14,14 @@ fun WeekEntity.toDomain(
     ): Week {
         val peopleByPosition = people.groupBy { it.position }
         val eventsByDate = events.groupBy { it.date }
+        val parsedMonday = java.time.LocalDate.parse(monday)
         val dayDates = days.split(',')
             .mapNotNull { runCatching { java.time.LocalDate.parse(it.trim()) }.getOrNull() }
-            .ifEmpty { eventsByDate.keys.mapNotNull { runCatching { java.time.LocalDate.parse(it) }.getOrNull() } }
+            .ifEmpty {
+                eventsByDate.keys.mapNotNull { runCatching { java.time.LocalDate.parse(it) }.getOrNull() }
+            }
+            // Старая запись без списка дней и без событий всё равно должна давать неделю.
+            .ifEmpty { (0..6).map { parsedMonday.plusDays(it.toLong()) } }
             .sorted()
 
         val scheduleDays = dayDates.map { parsedDate ->

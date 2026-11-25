@@ -177,7 +177,14 @@ fun BuildingMapScreen(
 
             Legend()
 
-            if (map == null) {
+            if (map == null && state.mapError != null) {
+                ErrorPanel(
+                    error = state.mapError!!,
+                    onRetry = onRetry,
+                    onPickSource = onBack,
+                    modifier = Modifier.weight(1f),
+                )
+            } else if (map == null) {
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                     Text(stringResource(R.string.map_loading))
                 }

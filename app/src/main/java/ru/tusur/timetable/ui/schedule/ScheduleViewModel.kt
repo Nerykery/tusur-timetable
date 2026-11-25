@@ -123,6 +123,11 @@ class ScheduleViewModel @Inject constructor(
 
     fun onSelectDay(date: LocalDate) {
         val monday = TomskTime.mondayOf(date)
+        if (!TomskTime.isWithinWindow(monday, TomskTime.today(clock))) {
+            // Ссылка «timetable://day/2019-03-04» не должна оставлять экран на чужой неделе.
+            _state.update { it.copy(rangeWarning = true) }
+            return
+        }
         if (monday != _state.value.monday) {
             loadWeek(monday, date)
         } else {

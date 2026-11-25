@@ -34,14 +34,15 @@ class ApiErrorMapper @Inject constructor(
         val body = runCatching { exception.response()?.errorBody()?.string() }.getOrNull()
         val serverCode = parseServerCode(body)
 
+        // HTTP-код старше тела: упавший прокси может вернуть 5xx с телом unknown_target,
+        // и «выберите группу заново» будет ложью.
         val kind = when {
+            code >= 500 || serverCode == "timetable_unavailable" -> TimetableErrorKind.UNAVAILABLE
+            code == 429 || serverCode == "rate_limited" -> TimetableErrorKind.RATE_LIMITED
             serverCode == "unknown_target" -> TimetableErrorKind.UNKNOWN_TARGET
-            serverCode == "bad_week" -> TimetableErrorKind.BAD_WEEK
-            serverCode == "rate_limited" || code == 429 -> TimetableErrorKind.RATE_LIMITED
+            serverCode == "bad_week" || code == 400 -> TimetableErrorKind.BAD_WEEK
             serverCode == "not_found" || code == 404 -> TimetableErrorKind.NOT_FOUND
-            serverCode == "timetable_unavailable" || code >= 500 -> TimetableErrorKind.UNAVAILABLE
-            code >= 500 -> TimetableErrorKind.UNAVAILABLE
-            code == 400 -> TimetableErrorKind.BAD_WEEK
+            code == 401 || code == 403 -> TimetableErrorKind.NOT_FOUND
             else -> TimetableErrorKind.UNKNOWN
         }
         return TimetableError(kind, code)

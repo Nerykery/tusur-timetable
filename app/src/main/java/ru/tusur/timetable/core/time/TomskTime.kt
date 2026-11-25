@@ -46,9 +46,16 @@ object TomskTime {
 
     fun parseTimeToMinutes(raw: String?): Int? {
         val value = raw?.trim()?.takeIf { it.isNotEmpty() } ?: return null
-        val parsed = runCatching { LocalTime.parse(value) }.getOrNull() ?: return null
+        // Сервер иногда отдаёт «8:50» (однозначный час) и заглушки вроде «--:--».
+        val normalized = when {
+            HOURS_ONE_DIGIT.matches(value) -> "0$value"
+            else -> value
+        }
+        val parsed = runCatching { LocalTime.parse(normalized) }.getOrNull() ?: return null
         return parsed.hour * 60 + parsed.minute
     }
+
+    private val HOURS_ONE_DIGIT = Regex("""^\d:\d{2}$""")
 
     fun formatMinutes(minutes: Int): String {
         val normalized = ((minutes % MINUTES_IN_DAY) + MINUTES_IN_DAY) % MINUTES_IN_DAY
