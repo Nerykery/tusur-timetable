@@ -6,6 +6,17 @@ Android-приложение для расписания Томского гос
 Неофициальный клиент: данные берутся с сайта [timetable.tusur.ru](https://timetable.tusur.ru) через публичный API
 [timetable.iptvik.ru](https://timetable.iptvik.ru). Приложение не связано с ТУСУР.
 
+## ⬇️ Скачать
+
+Готовый подписанный APK — в разделе [Releases](https://github.com/Nerykery/tusur-timetable/releases/latest):
+
+**[tusur-timetable-1.0.0.apk](https://github.com/Nerykery/tusur-timetable/releases/download/v1.0.0/tusur-timetable-1.0.0.apk)** · 2,92 МБ · Android 8.0+
+
+SHA-256: `4EB8BC69A4AB955EF71826BC7FC2106E4AF235BEC6AC7F976AAFFDDA3C8D193C`
+
+Проверено перед публикацией: 135 unit-тестов, 7 Compose-тестов на эмуляторе, рендер всех
+4 виджетов, lint 0/0, detekt 0, установка и запуск release-сборки на устройстве.
+
 ## Содержание
 
 - [Возможности](#возможности)
@@ -173,7 +184,7 @@ timetable://map?r=331%D0%B1
 
 ## Тесты
 
-**Unit (`app/src/test`, 98 тестов):**
+**Unit (`app/src/test`, 135 тестов):**
 
 | Класс | Что проверяет |
 |---|---|
@@ -195,6 +206,10 @@ timetable://map?r=331%D0%B1
 | `OfflineFirstRepositoryTest` | сохранение недели, чтение из кэша, TTL 5 минут, окно недель, `stale`, офлайн-поиск |
 | `WidgetSnapshotTest` | «идёт/следующая/закончилось/пусто», 7 дней недели, своё расписание у быстрого виджета |
 | `WidgetRenderingTest` | реальный рендер всех 4 виджетов (Glance + Robolectric): тексты состояний |
+| `MapperRegressionTest` | «8:50» не теряется, короткая неделя достраивается, `/api/load` без сетки пар отклоняется |
+| `MultiWeekCacheTest` | две недели подряд и две группы не затирают друг друга, неделя без списка дней восстанавливается |
+| `ReminderPlannerRegressionTest` | две пары в один слот, пары после полуночи, честная сводка при незагруженной неделе |
+| `NetworkRetryAndErrorPriorityTest` | ретраи только транзиентных ошибок, 5xx приоритетнее тела, 401 без ретраев |
 
 **Instrumented (`app/src/androidTest`, 7 тестов):** `ScheduleScreenTest` (пустой день и переход к
 ближайшему, выбор дня, «идёт пара», ошибка сети с повтором) и `PickerContentTest` (ввод, подсказка,
