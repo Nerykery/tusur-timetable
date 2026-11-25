@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Версии зависимостей обновляем осознанно, а не по подсказке линта. -->
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+    <issue id="NewerVersionAvailable" severity="ignore" />
+
+    <!-- targetCellWidth/targetCellHeight/previewLayout/widgetFeatures игнорируются старыми
+         версиями лаунчера, но нужны на Android 12+; fallback дают minWidth/minHeight. -->
+    <issue id="UnusedAttribute" severity="ignore" />
+
+    <!-- Приложение русскоязычное, полный набор локалей не планируется. -->
+    <issue id="MissingTranslation" severity="ignore" />
+    <issue id="MissingDefaultResource" severity="ignore" />
+
+    <!-- Адаптивная иконка обязана лежать в mipmap-anydpi-v26 (без квалификатора AAPT не находит
+         ресурс), а monochrome доступен только с API 33 — поэтому он в mipmap-anydpi-v33. -->
+    <issue id="MonochromeLauncherIcon" severity="ignore" />
+    <issue id="ObsoleteSdkInt" severity="ignore" />
+
+    <!-- targetSdk 35 — требование задания; 36 выйдет отдельным обновлением. -->
+    <issue id="OldTargetApi" severity="ignore" />
+</lint>

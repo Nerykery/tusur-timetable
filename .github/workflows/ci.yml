@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Сборка, тесты и линт
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Unit-тесты
+        run: ./gradlew :app:testDebugUnitTest --no-daemon
+
+      - name: Линт и detekt
+        run: ./gradlew :app:lintDebug detekt --no-daemon
+
+      - name: Debug APK
+        run: ./gradlew :app:assembleDebug --no-daemon
+
+      - name: Отчёты
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            app/build/reports/tests/
+            app/build/reports/lint-results-debug.html
+            build/reports/detekt/
+          retention-days: 7

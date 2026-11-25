@@ -1,0 +1,8 @@
+# Нормализуем переводы строк в репозитории (Windows-разработка, Linux/CI-сборка).
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.jar binary
+*.apk binary
+*.jks binary
+*.png binary

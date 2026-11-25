@@ -1,0 +1,38 @@
+build:
+  maxIssues: 0
+
+complexity:
+  LongParameterList:
+    active: false
+  TooManyFunctions:
+    active: false
+  LongMethod:
+    active: false
+  CyclomaticComplexMethod:
+    active: false
+  LargeClass:
+    active: false
+  NestedBlockDepth:
+    active: false
+
+style:
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    maxLineLength: 160
+  UnusedPrivateMember:
+    active: true
+  ReturnCount:
+    active: false
+
+naming:
+  FunctionNaming:
+    active: false
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+
+coroutines:
+  GlobalCoroutineUsage:
+    active: true

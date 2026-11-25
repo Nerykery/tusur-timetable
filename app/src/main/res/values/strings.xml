@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание ТУСУР</string>
+
+    <!-- Общие -->
+    <string name="back">Назад</string>
+    <string name="retry">Повторить</string>
+    <string name="refresh">Обновить</string>
+    <string name="open">Открыть</string>
+    <string name="choose_again">Выбрать заново</string>
+    <string name="today">Сегодня</string>
+    <string name="previous_week">Предыдущая неделя</string>
+    <string name="next_week">Следующая неделя</string>
+    <string name="more_actions">Ещё</string>
+    <string name="menu_map">Схема корпуса ФЭТ</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_about">О приложении</string>
+    <string name="share_chooser">Поделиться расписанием</string>
+
+    <!-- Главный экран -->
+    <string name="schedule_title">Расписание</string>
+    <string name="schedule_search">Найти группу или преподавателя</string>
+    <string name="loading_schedule">Загружаем расписание…</string>
+    <string name="change_source">сменить</string>
+    <string name="choose_source_title">Какое расписание показать?</string>
+    <string name="choose_source_hint">Найдите группу по номеру или преподавателя по фамилии.</string>
+    <string name="choose_source_action">Выбрать расписание</string>
+    <string name="day_selected_today">выбран, сегодня</string>
+    <string name="day_selected">выбран</string>
+    <string name="day_today">сегодня</string>
+    <string name="day_not_selected">не выбран</string>
+    <string name="day_has_lessons">есть пары</string>
+
+    <!-- Ошибки -->
+    <string name="error_unknown_target">Такого расписания больше нет. Выберите заново.</string>
+    <string name="error_bad_week">Неделя вне доступного диапазона.</string>
+    <string name="error_rate_limited">Слишком много запросов, подождите минуту.</string>
+    <string name="error_not_found">Сервис обновился, попробуйте позже.</string>
+    <string name="error_unavailable">Сайт расписания не отвечает.</string>
+    <string name="error_network">Нет связи с интернетом.</string>
+    <string name="error_unknown">Не удалось загрузить расписание.</string>
+    <string name="error_hint">Если данные уже загружались, показан кэш. Можно повторить запрос.</string>
+    <string name="offline_banner">Нет сети · данные от %1$s</string>
+    <string name="offline_banner_no_time">Нет сети · показаны сохранённые данные</string>
+    <string name="stale_banner">Сайт отдал последний срез: %1$s</string>
+
+    <!-- Типы занятий -->
+    <string name="lesson_type_lecture">Лекция</string>
+    <string name="lesson_type_practice">Практика</string>
+    <string name="lesson_type_lab">Лабораторная</string>
+    <string name="lesson_type_coursework">Курсовая</string>
+    <string name="lesson_type_exam">Экзамен/Зачёт</string>
+    <string name="lesson_type_consultation">Консультация</string>
+    <string name="lesson_type_other">Занятие</string>
+    <string name="lesson_default_pair">пара</string>
+    <string name="lesson_past">прошла</string>
+    <string name="pair_number">%1$d пара</string>
+
+    <string name="status_live">Идёт %1$s</string>
+    <string name="status_next_in">Следующая через %1$s</string>
+    <string name="status_finished">Пары на сегодня закончились</string>
+    <string name="status_then">Потом: %1$s · %2$s</string>
+    <string name="gap_break">перерыв %1$s</string>
+    <string name="gap_window">окно %1$s</string>
+
+    <string name="empty_day_title">В этот день пар нет</string>
+    <string name="empty_day_hint">Можно посмотреть ближайший день с занятиями.</string>
+    <string name="empty_day_nearest">Ближайшие пары: %1$s</string>
+
+    <!-- Выбор расписания -->
+    <string name="picker_title">Чьё расписание показать</string>
+    <string name="picker_hint">Группа или фамилия преподавателя</string>
+    <string name="picker_clear">Очистить</string>
+    <string name="picker_saved">Моё расписание</string>
+    <string name="picker_current">текущее</string>
+    <string name="picker_recent">Недавние</string>
+    <string name="picker_min_chars">Введите минимум 2 символа.</string>
+    <string name="picker_start_typing">Начните вводить номер группы или фамилию.</string>
+    <string name="picker_no_results">Ничего не найдено.</string>
+    <string name="picker_error">Не удалось выполнить поиск. Проверьте связь.</string>
+    <string name="picker_selected">Выбрано</string>
+    <string name="search_type_group">группа</string>
+    <string name="search_type_teacher">преподаватель</string>
+
+    <!-- Настройки -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_notifications">Уведомления</string>
+    <string name="settings_notifications_hint">Напоминания о парах и сводки на день</string>
+    <string name="settings_before_class">Напомнить перед парой</string>
+    <string name="settings_before_class_hint">Заранее предупредить о начале занятия</string>
+    <string name="settings_minutes_before">За %1$d минут до пары</string>
+    <string name="settings_morning_digest">Утренняя сводка</string>
+    <string name="settings_morning_digest_hint">Расписание на сегодня утром</string>
+    <string name="settings_evening_digest">Вечерняя сводка</string>
+    <string name="settings_evening_digest_hint">Расписание на завтра вечером</string>
+    <string name="settings_send_at">Отправлять в</string>
+    <string name="settings_data_source">Источник данных</string>
+    <string name="settings_data_source_hint">Основной источник — сайт расписания. Официальный API ТУСУР можно включить как резерв.</string>
+    <string name="settings_source_proxy">Сайт</string>
+    <string name="settings_source_official">api.tusur.ru</string>
+    <string name="settings_official_fallback">Резервный официальный API</string>
+    <string name="settings_official_fallback_hint">Если сайт недоступен, попробовать api.tusur.ru</string>
+    <string name="settings_theme">Тема</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="settings_start_screen">Стартовый экран</string>
+    <string name="start_screen_schedule">Расписание</string>
+    <string name="start_screen_map">Схема</string>
+    <string name="settings_notifications_permission">Уведомления выключены</string>
+    <string name="settings_notifications_permission_hint">Разрешите уведомления, чтобы получать напоминания и сводки.</string>
+    <string name="settings_allow">Разрешить</string>
+    <string name="settings_exact_alarm">Нет точных будильников</string>
+    <string name="settings_exact_alarm_hint">Android может сдвинуть время напоминания. Разрешите точные будильники.</string>
+    <string name="settings_open_settings">Открыть настройки</string>
+    <string name="settings_about_hint">Источник данных, дисклеймер и версия</string>
+    <string name="settings_footer">%1$s · неофициальный клиент</string>
+
+    <!-- Каналы уведомлений -->
+    <string name="channel_reminders">Напоминания о парах</string>
+    <string name="channel_reminders_description">Уведомления перед началом занятия</string>
+    <string name="channel_digest">Сводки расписания</string>
+    <string name="channel_digest_description">Утренняя и вечерняя сводка</string>
+    <string name="reminder_digest_today">Расписание на сегодня</string>
+    <string name="reminder_digest_tomorrow">Расписание на завтра</string>
+    <string name="reminder_no_lessons">Пар нет</string>
+    <string name="reminder_pair_format">%1$d-я пара</string>
+
+    <!-- Схема корпуса -->
+    <string name="map_title">Схема корпуса ФЭТ</string>
+    <string name="map_address">г. Томск, ул. Вершинина, 74</string>
+    <string name="map_floor">Этаж</string>
+    <string name="map_floor_format">%1$d этаж</string>
+    <string name="map_search_hint">Аудитория</string>
+    <string name="map_show">Показать</string>
+    <string name="map_room_not_on_scheme">«%1$s» на схеме пока нет</string>
+    <string name="map_legend_free">Свободна</string>
+    <string name="map_legend_busy">Занята</string>
+    <string name="map_legend_selected">Выбрана</string>
+    <string name="map_tap_hint">Схема этажа. Нажмите на аудиторию, чтобы увидеть занятость.</string>
+    <string name="map_zoom_in">Приблизить</string>
+    <string name="map_zoom_out">Отдалить</string>
+    <string name="map_zoom_reset">Показать весь этаж</string>
+    <string name="map_disclaimer">Схема примерная и не заменяет указатели в корпусе.</string>
+    <string name="map_loading">Загружаем схему…</string>
+    <string name="map_load_error">Занятость аудиторий недоступна</string>
+    <string name="map_slot_format">%1$d пара · %2$s–%3$s</string>
+    <string name="map_follow_now">Сейчас</string>
+    <string name="map_now">сейчас</string>
+    <string name="map_busy_lessons">Занятия в это время</string>
+    <string name="map_open_source">Открыть в первоисточнике</string>
+    <string name="room_free_until">Свободна до %1$s</string>
+    <string name="room_free_all_day">Свободна до конца дня</string>
+    <string name="room_busy_until">Занята до %1$s</string>
+    <string name="room_busy_all_day">Занята до конца дня</string>
+    <string name="room_not_in_schedule">Нет в расписании корпуса</string>
+
+    <!-- О приложении -->
+    <string name="about_title">О приложении</string>
+    <string name="about_version">Версия %1$s</string>
+    <string name="about_source_title">Откуда данные</string>
+    <string name="about_source_text">Расписание берётся с сайта timetable.tusur.ru через публичный API timetable.iptvik.ru. Данные могут отставать и меняться — верьте первоисточнику.</string>
+    <string name="about_open_source_site">Открыть timetable.tusur.ru</string>
+    <string name="about_open_api">Открыть сайт расписания</string>
+    <string name="about_map_title">Схема корпуса</string>
+    <string name="about_map_text">Схема ФЭТ собрана по данным сайта расписания. Номера аудиторий и этажи соответствуют справочнику, геометрия упрощена.</string>
+    <string name="about_open_map">Открыть схему на сайте</string>
+    <string name="about_disclaimer_title">Дисклеймер</string>
+    <string name="about_disclaimer_text">Приложение неофициальное и не связано с ТУСУР. Расписание может быть неполным или устаревшим; ориентируйтесь на официальное расписание.</string>
+    <string name="about_footer">Неофициальный клиент. Уважайте первоисточник и правила API.</string>
+
+    <!-- Виджеты -->
+    <string name="widget_next_description">Следующая пара: время, дисциплина и аудитория</string>
+    <string name="widget_today_description">Расписание на сегодня</string>
+    <string name="widget_week_description">Неделя: дни и количество пар</string>
+    <string name="widget_quick_description">Быстрый выбор: своё расписание для виджета</string>
+    <string name="widget_today_title">Сегодня</string>
+    <string name="widget_week_title">Неделя</string>
+    <string name="widget_quick_title">Быстрый выбор</string>
+    <string name="widget_preview_group">гр. 023</string>
+    <string name="widget_preview_live">Идёт 3-я пара · ещё 25 мин</string>
+    <string name="widget_preview_room">16:45 · Программирование ПЛИС · ф 331б</string>
+    <string name="widget_preview_today_rows">13:15  Программирование ПЛИС\n15:00  Современные проблемы электроники</string>
+    <string name="widget_preview_week_grid">пн 24 · 2\nвт 25 · 4\nср 26 · 3</string>
+    <string name="widget_config_title">Виджет расписания</string>
+    <string name="widget_config_mode">Что показывать</string>
+    <string name="widget_config_mode_next">Следующая пара</string>
+    <string name="widget_config_mode_today">Сегодня</string>
+    <string name="widget_config_nothing_selected">Выберите расписание из списка</string>
+    <string name="widget_config_save">Сохранить</string>
+    <string name="widget_config_cancel">Отмена</string>
+
+    <!-- Плюрализация -->
+    <plurals name="lessons_count">
+        <item quantity="one">%1$d занятие</item>
+        <item quantity="few">%1$d занятия</item>
+        <item quantity="many">%1$d занятий</item>
+        <item quantity="other">%1$d занятий</item>
+    </plurals>
+
+    <plurals name="minutes_short">
+        <item quantity="one">ещё %1$d минута</item>
+        <item quantity="few">ещё %1$d минуты</item>
+        <item quantity="many">ещё %1$d минут</item>
+        <item quantity="other">ещё %1$d минут</item>
+    </plurals>
+
+    <plurals name="reminder_before_title">
+        <item quantity="one">Через %1$d минуту</item>
+        <item quantity="few">Через %1$d минуты</item>
+        <item quantity="many">Через %1$d минут</item>
+        <item quantity="other">Через %1$d минут</item>
+    </plurals>
+</resources>
