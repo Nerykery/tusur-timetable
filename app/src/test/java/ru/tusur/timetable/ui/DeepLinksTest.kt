@@ -47,7 +47,7 @@ class DeepLinksTest {
 
     @Test
     fun `foreign and broken links are ignored`() {
-        assertNull(DeepLinks.parse("https://timetable.iptvik.ru/?g=023"))
+        assertNull(DeepLinks.parse("https://timetable.tusur.ru/?g=023"))
         assertNull(DeepLinks.parse("timetable://unknown/1"))
         assertNull(DeepLinks.parse(null))
         assertNull(DeepLinks.parse(""))

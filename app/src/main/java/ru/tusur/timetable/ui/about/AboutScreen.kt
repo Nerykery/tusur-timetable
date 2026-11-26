@@ -96,16 +96,9 @@ fun AboutScreen(
                 TextButton(onClick = { onOpenUrl(SOURCE_SITE) }) {
                     Text(stringResource(R.string.about_open_source_site))
                 }
-                TextButton(onClick = { onOpenUrl(SOURCE_API) }) {
-                    Text(stringResource(R.string.about_open_api))
-                }
             }
 
-            AboutCard(stringResource(R.string.about_map_title), stringResource(R.string.about_map_text)) {
-                TextButton(onClick = { onOpenUrl(SOURCE_MAP) }) {
-                    Text(stringResource(R.string.about_open_map))
-                }
-            }
+            AboutCard(stringResource(R.string.about_map_title), stringResource(R.string.about_map_text))
 
             AboutCard(stringResource(R.string.about_disclaimer_title), stringResource(R.string.about_disclaimer_text))
 
@@ -147,5 +140,3 @@ private fun AboutCard(
 }
 
 private const val SOURCE_SITE = "https://timetable.tusur.ru"
-private const val SOURCE_API = "https://timetable.iptvik.ru"
-private const val SOURCE_MAP = "https://timetable.iptvik.ru/map"

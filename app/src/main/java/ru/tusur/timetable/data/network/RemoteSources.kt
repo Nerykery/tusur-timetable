@@ -31,7 +31,7 @@ interface BuildingLoadRemoteSource {
     suspend fun load(): BuildingLoad
 }
 
-/** Основной источник — прокси-API сайта расписания. */
+/** Основной источник — API расписания. */
 @Singleton
 class ProxyRemoteSource @Inject constructor(
     private val api: ProxyTimetableApi,

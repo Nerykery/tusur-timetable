@@ -4,7 +4,7 @@ enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
 enum class StartScreen { SCHEDULE, MAP }
 
-/** Источник данных: прокси-API сайта расписания или официальный api.tusur.ru. */
+/** Источник данных: основной API расписания или api.tusur.ru. */
 enum class DataSourceMode { PROXY, OFFICIAL }
 
 data class SourceSelection(
@@ -26,7 +26,7 @@ data class AppSettings(
     val morningDigestEnabled: Boolean = false,
     val morningDigestHour: Int = 8,
     val dataSourceMode: DataSourceMode = DataSourceMode.PROXY,
-    /** Пробовать официальный API ТУСУР, если прокси недоступен (по умолчанию выключено). */
+    /** Пробовать api.tusur.ru, если основной источник недоступен (по умолчанию выключено). */
     val officialFallbackEnabled: Boolean = false,
 ) {
     companion object {

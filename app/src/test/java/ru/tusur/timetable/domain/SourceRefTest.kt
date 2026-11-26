@@ -29,14 +29,14 @@ class SourceRefTest {
         val ref = SourceRef.group("fit/023")
         assertEquals("fit/023", ref.groupQuery)
         assertEquals("023", ref.officialGroupId)
-        assertEquals("https://timetable.iptvik.ru/?g=fit/023", ref.webUrl)
+        assertEquals("https://timetable.tusur.ru/faculties/fit/groups/023", ref.webUrl)
     }
 
     @Test
     fun `teacher official name comes from label`() {
         val ref = SourceRef.teacher("35612", "Костина Мария Алексеевна")
         assertEquals("Костина", ref.officialTeacherName)
-        assertEquals("https://timetable.iptvik.ru/?t=35612", ref.webUrl)
+        assertEquals(SourceRef.OFFICIAL_SITE, ref.webUrl)
         assertNull(SourceRef.teacher("35612").officialTeacherName)
     }
 

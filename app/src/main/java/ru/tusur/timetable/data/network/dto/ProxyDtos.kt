@@ -3,7 +3,7 @@ package ru.tusur.timetable.data.network.dto
 import kotlinx.serialization.Serializable
 
 /**
- * Контракт прокси-API сайта: /api/week, /api/search, /api/load.
+ * Контракт API расписания: /api/week, /api/search, /api/load.
  * Поля повторяют ответы один в один; отсутствующие значения — null.
  */
 @Serializable

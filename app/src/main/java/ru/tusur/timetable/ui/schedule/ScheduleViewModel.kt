@@ -50,7 +50,7 @@ data class ScheduleUiState(
     val parityLabel: String? get() = week?.parityLabel
     val fetchedAt: Instant? get() = week?.fetchedAt
     val staleAt: String? get() = week?.staleAt
-    val shareUrl: String? get() = SourceRef.parse(sourceKey)?.webUrl
+    val shareUrl: String? get() = week?.sourceUrl ?: SourceRef.parse(sourceKey)?.webUrl
     val isShowingToday: Boolean get() = selectedDate == today
 }
 

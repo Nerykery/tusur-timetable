@@ -9,7 +9,7 @@ import ru.tusur.timetable.data.network.dto.OfficialWeeksResponse
 import ru.tusur.timetable.data.network.dto.SearchDto
 import ru.tusur.timetable.data.network.dto.WeekDto
 
-/** Прокси-API сайта расписания (базовый URL — BuildConfig.TIMETABLE_BASE_URL). */
+/** API расписания (базовый URL — BuildConfig.TIMETABLE_BASE_URL). */
 interface ProxyTimetableApi {
 
     @GET("api/week")

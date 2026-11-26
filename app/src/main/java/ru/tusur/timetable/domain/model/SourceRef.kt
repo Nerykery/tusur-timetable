@@ -41,11 +41,23 @@ data class SourceRef(
             null
         }
 
-    /** Публичная ссылка на сайте расписания (для «поделиться»). */
+    /**
+     * Страница расписания на сайте ТУСУР. Для группы путь известен из поля `source`
+     * ответа API; для преподавателя сайт отдаёт только общую страницу.
+     */
     val webUrl: String
         get() = when (type) {
-            Type.GROUP -> "https://timetable.iptvik.ru/?g=$id"
-            Type.TEACHER -> "https://timetable.iptvik.ru/?t=$id"
+            Type.GROUP -> {
+                val faculty = id.substringBeforeLast('/', "")
+                val group = id.substringAfterLast('/')
+                if (faculty.isNotEmpty()) {
+                    "$OFFICIAL_SITE/faculties/$faculty/groups/$group"
+                } else {
+                    OFFICIAL_SITE
+                }
+            }
+
+            Type.TEACHER -> OFFICIAL_SITE
         }
 
     /** Человеческое имя для строки выбора. */
@@ -59,6 +71,8 @@ data class SourceRef(
     fun withLabel(label: String?): SourceRef = copy(displayLabel = label?.takeIf { it.isNotBlank() })
 
     companion object {
+        const val OFFICIAL_SITE = "https://timetable.tusur.ru"
+
         fun group(id: String, label: String? = null): SourceRef = SourceRef(Type.GROUP, id.trim(), label)
 
         fun teacher(id: String, label: String? = null): SourceRef = SourceRef(Type.TEACHER, id.trim(), label)

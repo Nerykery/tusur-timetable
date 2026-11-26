@@ -95,7 +95,7 @@
     <string name="settings_evening_digest_hint">Расписание на завтра вечером</string>
     <string name="settings_send_at">Отправлять в</string>
     <string name="settings_data_source">Источник данных</string>
-    <string name="settings_data_source_hint">Основной источник — сайт расписания. Официальный API ТУСУР можно включить как резерв.</string>
+    <string name="settings_data_source_hint">Основной источник — API расписания ТУСУР.</string>
     <string name="settings_source_proxy">Сайт</string>
     <string name="settings_source_official">api.tusur.ru</string>
     <string name="settings_official_fallback">Резервный официальный API</string>
@@ -160,13 +160,9 @@
     <string name="about_title">О приложении</string>
     <string name="about_version">Версия %1$s</string>
     <string name="about_source_title">Откуда данные</string>
-    <string name="about_source_text">Расписание берётся с сайта timetable.tusur.ru через публичный API timetable.iptvik.ru. Данные могут отставать и меняться — верьте первоисточнику.</string>
-    <string name="about_open_source_site">Открыть timetable.tusur.ru</string>
-    <string name="about_open_api">Открыть сайт расписания</string>
-    <string name="about_map_title">Схема корпуса</string>
-    <string name="about_map_text">Схема ФЭТ собрана по данным сайта расписания. Номера аудиторий и этажи соответствуют справочнику, геометрия упрощена.</string>
-    <string name="about_open_map">Открыть схему на сайте</string>
-    <string name="about_disclaimer_title">Дисклеймер</string>
+    <string name="about_source_text">Расписание берётся с сайта timetable.tusur.ru. Данные могут отставать и меняться — верьте первоисточнику.</string>
+    <string name="about_open_source_site">Открыть timetable.tusur.ru</string>    <string name="about_map_title">Схема корпуса</string>
+    <string name="about_map_text">Схема ФЭТ собрана по данным сайта расписания. Номера аудиторий и этажи соответствуют справочнику, геометрия упрощена.</string>    <string name="about_disclaimer_title">Дисклеймер</string>
     <string name="about_disclaimer_text">Приложение неофициальное и не связано с ТУСУР. Расписание может быть неполным или устаревшим; ориентируйтесь на официальное расписание.</string>
     <string name="about_footer">Неофициальный клиент. Уважайте первоисточник и правила API.</string>
 

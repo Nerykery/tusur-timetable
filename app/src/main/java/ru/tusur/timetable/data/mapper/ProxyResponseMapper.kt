@@ -28,7 +28,7 @@ import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/** Преобразование ответов прокси-API в доменные модели. */
+/** Преобразование ответов API расписания в доменные модели. */
 @Singleton
 class ProxyResponseMapper @Inject constructor() {
 
