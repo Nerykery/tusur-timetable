@@ -10,9 +10,9 @@ Android-приложение для расписания Томского гос
 
 Готовый подписанный APK — в разделе [Releases](https://github.com/Nerykery/tusur-timetable/releases/latest):
 
-**[tusur-timetable-1.0.0.apk](https://github.com/Nerykery/tusur-timetable/releases/download/v1.0.0/tusur-timetable-1.0.0.apk)** · 2,92 МБ · Android 8.0+
+**[tusur-timetable-1.0.1.apk](https://github.com/Nerykery/tusur-timetable/releases/download/v1.0.1/tusur-timetable-1.0.1.apk)** · 2,92 МБ · Android 8.0+ · версия 1.0.1
 
-SHA-256: `4EB8BC69A4AB955EF71826BC7FC2106E4AF235BEC6AC7F976AAFFDDA3C8D193C`
+SHA-256: `0DFD24E339027A43F1C2904A06BA46B3EEBBB8CA027750AE854670B8E3026C68`
 
 Проверено перед публикацией: 135 unit-тестов, 7 Compose-тестов на эмуляторе, рендер всех
 4 виджетов, lint 0/0, detekt 0, установка и запуск release-сборки на устройстве.
